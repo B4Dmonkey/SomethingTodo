@@ -8,7 +8,7 @@ export const TodoCTA = ({ onAddTodo }: TodoCTAProps) => {
   const [todo, setTodo] = useState<string>("");
 
   return (
-    <div className="grid grid-cols-2 space-x-4">
+    <form className="grid grid-cols-2 space-x-4">
       <div>
         <input
           type="text"
@@ -29,6 +29,6 @@ export const TodoCTA = ({ onAddTodo }: TodoCTAProps) => {
           Add Todo
         </button>
       </div>
-    </div>
+    </form>
   );
 };
