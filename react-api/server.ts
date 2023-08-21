@@ -22,15 +22,17 @@ app.get("/api", (req: Request, res: Response) => {
   res.send(todoList);
 });
 app.post("/api", (req: Request, res: Response) => {
-  const { title, description } = req.body;
-  const todoItem: TODO_ITEM = {
-    id: todoList.length,
-    title,
-    description,
-    completed: false,
-  };
-  todoList.push(todoItem);
-  res.send(todoItem);
+  console.log('still hitting this')
+  // const { title, description } = req?.body;
+  // console.log(`${title}, ${description}`);
+  // const todoItem: TODO_ITEM = {
+  //   id: todoList.length,
+  //   title,
+  //   description,
+  //   completed: false,
+  // };
+  // todoList.push(todoItem);
+  res.status(200).send("some response");
 });
 
 app.put("/api", (req: Request, res: Response) => {
@@ -55,3 +57,5 @@ app.delete("/api", (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
+
+export default app;
