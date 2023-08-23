@@ -1,9 +1,18 @@
 import { describe, it, expect } from "vitest";
-import { connect } from "./db";
+import { connect, createTable } from "./db";
 
 describe("Database", () => {
   it("should connect to database", async () => {
-    await connect();
-    expect(true).toBe(true);
+    const db = await connect();
+    expect(db).toBeDefined();
+  });
+
+  it("makes a table", async () => {
+    const db = await connect();
+    await createTable();
+    const hasTable = await db.get(`
+      SELECT name FROM sqlite_master WHERE type='table' AND name='TODOs'
+    `);
+    expect(hasTable).toBeDefined();
   });
 });
