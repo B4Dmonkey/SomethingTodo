@@ -18,3 +18,29 @@ export async function create(todoItem: TodoItem): Promise<number> {
 
   return lastID;
 }
+
+export async function readAll(): Promise<TodoItem[]> {
+  const db = await connect();
+
+  const results = await db.all("SELECT * FROM TODOs");
+
+  return results.map(
+    (result): TodoItem => ({
+      id: result.id,
+      title: result.title,
+      completed: result.completed === 1,
+    })
+  );
+}
+
+export async function update(todo: TodoItem): Promise<void> {
+  const db = await connect();
+
+  const stmt = await db.prepare(
+    "UPDATE TODOs SET title = ?, completed = ? WHERE id = ?"
+  );
+
+  await stmt.run(todo.title, todo.completed ? 1 : 0, todo.id);
+
+  await stmt.finalize();
+}
