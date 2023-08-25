@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "./api";
+import type { TodoItem } from "./api";
 
-export interface todoItem {
-  id: number;
-  title: string;
-  completed: boolean;
-  dueDate?: Date;
-}
 export const useTodoList = () => {
-  const [todoList, setTodoList] = useState<todoItem[]>([]);
+  const [todoList, setTodoList] = useState<TodoItem[]>([]);
+
+  const fetchTodoList = async () => setTodoList(await api.readAll());
+
+  useEffect(() => {
+    fetchTodoList();
+  });
 
   const addTodo = (todoItem: string) => {
     setTodoList([
