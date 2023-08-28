@@ -4,13 +4,12 @@ import type { TodoItem } from "./api";
 
 export const useTodoList = () => {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
-  
+
   const fetchTodoList = async () => setTodoList(await api.readAll());
 
   useEffect(() => {
-    console.log('fetching the list')
     fetchTodoList();
-  },[]);
+  }, []);
 
   const addTodo = (todoItem: string) => {
     setTodoList([
@@ -23,5 +22,11 @@ export const useTodoList = () => {
     ]);
   };
 
-  return { todoList, addTodo };
+  const handleOnCheckItem = async (id: number) => {
+    await api.update(id, { completed: !todoList[id].completed }).then(() => {
+      fetchTodoList();
+    });
+  };
+
+  return { todoList, addTodo, handleOnCheckItem };
 };

@@ -1,7 +1,13 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { create, readAll, update } from "./crud";
 import { TodoItem } from "../models/TodoItem";
 import { connect } from "./db";
+import { faker } from "@faker-js/faker";
+
+const deleteAllRecords = async () => {
+  const db = await connect();
+  await db.run("DELETE FROM TODOs");
+};
 
 describe("create", () => {
   it("creates a record", async () => {
@@ -25,16 +31,27 @@ describe("create", () => {
 });
 
 describe("readAll", () => {
-  it("returns all records", async () => {
-    const results = await readAll();
+  beforeAll(async () => {
+    await deleteAllRecords();
+  });
 
-    console.log(results);
-    // ? whats the correct expectation here?
+  it.only("returns all records", async () => {
+    const results = await readAll();
+    expect(results.length).toBe(0);
+
+    const todoItem: TodoItem = {
+      title: faker.lorem.sentence({ min: 3, max: 10 }),
+    };
+
+    await create(todoItem);
+  
+    const results2 = await readAll();
+    expect(results2.length).toBe(1);
   });
 });
 
 describe("update", () => {
   it("updates a given recon", async () => {
-    const result = await update( { title: "Updated title" });
+    const result = await update({ title: "Updated title" });
   });
 });

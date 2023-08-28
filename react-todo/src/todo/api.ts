@@ -12,6 +12,13 @@ export default {
   create: undefined,
   readAll: async (): Promise<TodoItem[]> =>
     await fetch(`${HOST}/api`).then((res) => res.json()),
-  update: undefined,
+  update: async (id: number, todoItem: Partial<TodoItem>): Promise<void> =>
+    await fetch(`${HOST}/api/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todoItem),
+    }).then((res) => res.json()),
   delete: undefined,
 };
