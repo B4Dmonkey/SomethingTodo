@@ -33,20 +33,23 @@ export async function readAll(): Promise<TodoItem[]> {
   );
 }
 
-export async function update(id: number, todo: TodoItem): Promise<number> {
+export async function update(
+  id: number,
+  todo: Partial<TodoItem>
+): Promise<number> {
   const db = await connect();
 
   const stmt = await db.prepare(
-    "UPDATE TODOs SET title = ?, completed = ? WHERE id = ?"
+    "UPDATE TODOs SET title = COALESCE(?, title), completed = COALESCE(?, completed) WHERE id = ?"
   );
 
-  const result = await stmt.run(todo.title, todo.completed ? 1 : 0, id);
+  const result = await stmt.run(todo.title, todo.completed, id);
 
-  const { lastID } = result;
+  const { changes } = result;
 
-  if (!lastID) throw new Error("Could not create record");
+  if (!changes) console.error("No Records updated");
 
   await stmt.finalize();
 
-  return lastID;
+  return id;
 }
