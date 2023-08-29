@@ -33,14 +33,20 @@ export async function readAll(): Promise<TodoItem[]> {
   );
 }
 
-export async function update(todo: TodoItem): Promise<void> {
+export async function update(id: number, todo: TodoItem): Promise<number> {
   const db = await connect();
 
   const stmt = await db.prepare(
     "UPDATE TODOs SET title = ?, completed = ? WHERE id = ?"
   );
 
-  await stmt.run(todo.title, todo.completed ? 1 : 0, todo.id);
+  const result = await stmt.run(todo.title, todo.completed ? 1 : 0, id);
+
+  const { lastID } = result;
+
+  if (!lastID) throw new Error("Could not create record");
 
   await stmt.finalize();
+
+  return lastID;
 }
