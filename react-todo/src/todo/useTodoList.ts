@@ -4,11 +4,15 @@ import type { TodoItem } from "./api";
 
 export const useTodoList = () => {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
+  const [selectedItems, setSelectedItems] = useState<TodoItem[]>([]);
 
   const fetchTodoList = async () => setTodoList(await api.readAll());
 
   useEffect(() => {
     fetchTodoList();
+    // api.readAll().then((res) => {
+    //   setTodoList(res);
+    // });
   }, []);
 
   const addTodo = (todoItem: string) => {

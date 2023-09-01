@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TodoPage } from "./TodoPage";
+import api from "./api";
 
 describe("TodoPage", () => {
   it("should render the header", () => {
