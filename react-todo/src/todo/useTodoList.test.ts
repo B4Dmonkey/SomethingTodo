@@ -12,11 +12,14 @@ describe("useTodoList", () => {
     // ! Testing library says don't use act
     // ! https://kentcdodds.com/blog/common-mistakes-with-react-testing-library#wrapping-things-in-act-unnecessarily
     // ! What do you do when your convenience library aren't convenient?
-    renderHook(() => useTodoList());
+    const { result } = renderHook(() => useTodoList());
 
-    expect(readAllSpy).toHaveBeenCalled();
     // ! To solve we need to do this
     // ! https://kentcdodds.com/blog/fix-the-not-wrapped-in-act-warning
     await act(async () => readAllSpy);
+    expect(readAllSpy).toHaveBeenCalled();
+    expect(result.current.todoList).toEqual([
+      { id: 1, title: "test", completed: false },
+    ]);
   });
 });
