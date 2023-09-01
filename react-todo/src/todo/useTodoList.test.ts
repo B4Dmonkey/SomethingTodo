@@ -17,6 +17,7 @@ describe("useTodoList", () => {
     // ! To solve we need to do this
     // ! https://kentcdodds.com/blog/fix-the-not-wrapped-in-act-warning
     await act(async () => readAllSpy);
+
     expect(readAllSpy).toHaveBeenCalled();
     expect(result.current.todoList).toEqual([
       { id: 1, title: "test", completed: false },
