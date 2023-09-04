@@ -26,11 +26,12 @@ export const useTodoList = () => {
     ]);
   };
 
-  const handleOnCheckItem = async (id: number) => {
-    await api.update(id, { completed: !todoList[id].completed }).then(() => {
-      fetchTodoList();
-    });
+  const handleOnCheckItem = (id: number) => {
+    setSelectedItems([
+      ...selectedItems,
+      todoList.find((item) => item.id === id)!,
+    ]);
   };
 
-  return { todoList, addTodo, handleOnCheckItem };
+  return { todoList, addTodo, handleOnCheckItem, selectedItems };
 };

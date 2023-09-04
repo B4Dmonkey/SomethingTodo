@@ -23,4 +23,22 @@ describe("useTodoList", () => {
       { id: 1, title: "test", completed: false },
     ]);
   });
+
+  it("should handle select items by adding them to selectedItems list", async () => {
+    const readAllSpy = jest
+      .spyOn(api, "readAll")
+      .mockResolvedValue([{ id: 1, title: "test", completed: false }]);
+
+    const { result } = renderHook(() => useTodoList());
+
+    await act(async () => readAllSpy);
+
+    expect(readAllSpy).toHaveBeenCalled();
+
+    act(() => result.current.handleOnCheckItem(1));
+
+    expect(result.current.selectedItems).toEqual([
+      { id: 1, title: "test", completed: false },
+    ]);
+  });
 });
