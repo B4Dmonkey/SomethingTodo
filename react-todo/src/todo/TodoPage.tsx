@@ -14,7 +14,7 @@ export const TodoPage = () => {
         <p>Some Date Picker</p>
         <p>Some summary</p>
       </div> */}
-      <TodoList listItem={todoList} />
+      <TodoList listItems={todoList} />
       <TodoCTA onAddTodo={addTodo} />
     </div>
   );

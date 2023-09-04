@@ -45,4 +45,20 @@ describe("TodoPage", () => {
 
     expect(screen.queryAllByRole("listitem")).toHaveLength(2);
   });
+  
+  it('should update an item', () => {
+    const readAllSpy = jest.spyOn(api, "readAll").mockResolvedValue([
+      { id: 1, title: "test item 1", completed: false },
+    ]);
+
+    render(<TodoPage />);
+
+    act(() => readAllSpy);
+
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).not.toBeChecked();
+
+    userEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+  });
 });

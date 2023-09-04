@@ -2,18 +2,19 @@ import type { TodoItem } from "./api";
 import { useTodoList } from "./useTodoList";
 
 interface TodoListProps {
-  listItem: TodoItem[];
+  listItems: TodoItem[];
 }
 
-export const TodoList = ({ listItem }: TodoListProps) => {
-  const { handleOnCheckItem } = useTodoList();
+export const TodoList = ({ listItems }: TodoListProps) => {
+  const { selectedItems, handleOnCheckItem } = useTodoList();
+
   return (
     <ul>
-      {listItem.map((todo: TodoItem) => (
+      {listItems.map((todo: TodoItem) => (
         <li key={todo.id}>
           <input
             type="checkbox"
-            checked={todo.completed}
+            checked={!!selectedItems.find((curItem) => curItem?.id === todo.id)}
             onChange={() => {
               handleOnCheckItem(todo.id);
             }}
