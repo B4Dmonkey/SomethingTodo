@@ -3,7 +3,8 @@ import { TodoList } from "./TodoList";
 import { useTodoList } from "./useTodoList";
 
 export const TodoPage = () => {
-  const { todoList, addTodo } = useTodoList();
+  const { todoList, addTodo, selectedItems, handleOnCheckItem } = useTodoList();
+
   return (
     <div className="container mx-auto">
       <h1>
@@ -14,8 +15,12 @@ export const TodoPage = () => {
         <p>Some Date Picker</p>
         <p>Some summary</p>
       </div> */}
-      <TodoList listItems={todoList} />
-      <TodoCTA onAddTodo={addTodo} />
+      <TodoList
+        listItems={todoList}
+        selectedItems={selectedItems}
+        handleOnCheckItem={handleOnCheckItem}
+      />
+      <TodoCTA selectedItems={selectedItems} onAddTodo={addTodo} />
     </div>
   );
 };

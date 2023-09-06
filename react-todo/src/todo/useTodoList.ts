@@ -5,6 +5,11 @@ import type { TodoItem } from "./api";
 export const useTodoList = () => {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
   const [selectedItems, setSelectedItems] = useState<TodoItem[]>([]);
+  const [hasSelectedTodo, setHasSelectedTodo] = useState(false);
+
+  useEffect(() => {
+    setHasSelectedTodo(!!selectedItems.length);
+  }, [selectedItems]);
 
   const fetchTodoList = async () => setTodoList(await api.readAll());
 
@@ -27,11 +32,19 @@ export const useTodoList = () => {
   };
 
   const handleOnCheckItem = (id: number) => {
-    setSelectedItems([
-      ...selectedItems,
-      todoList.find((item) => item.id === id)!,
-    ]);
+    if (id) {
+      setSelectedItems([
+        ...selectedItems,
+        todoList.find((item) => item.id === id)!,
+      ]);
+    }
   };
 
-  return { todoList, addTodo, handleOnCheckItem, selectedItems };
+  return {
+    todoList,
+    addTodo,
+    handleOnCheckItem,
+    selectedItems,
+    hasSelectedTodo,
+  };
 };

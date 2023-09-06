@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TodoPage } from "./TodoPage";
 import api from "./api";
@@ -45,20 +45,27 @@ describe("TodoPage", () => {
 
     expect(screen.queryAllByRole("listitem")).toHaveLength(2);
   });
-  
-  it('should update an item', () => {
-    const readAllSpy = jest.spyOn(api, "readAll").mockResolvedValue([
-      { id: 1, title: "test item 1", completed: false },
-    ]);
+
+  it("should update an item", async () => {
+    const user = userEvent.setup();
+
+    const readAllSpy = jest
+      .spyOn(api, "readAll")
+      .mockResolvedValue([{ id: 1, title: "test item 1", completed: false }]);
 
     render(<TodoPage />);
 
-    act(() => readAllSpy);
+    await act(async () => readAllSpy);
 
-    const checkbox = screen.getByRole('checkbox');
+    const checkbox = screen.getAllByRole("checkbox")[0];
     expect(checkbox).not.toBeChecked();
 
-    userEvent.click(checkbox);
-    expect(checkbox).toBeChecked();
+    await waitFor(async () => {
+      await user.click(checkbox);
+      expect(checkbox).toBeChecked();
+    });
+
+    const updateButton = screen.getByRole("button", { name: "Completed" });
+    expect(updateButton).toBeVisible();
   });
 });

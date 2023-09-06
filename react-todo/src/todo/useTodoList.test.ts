@@ -41,4 +41,20 @@ describe("useTodoList", () => {
       { id: 1, title: "test", completed: false },
     ]);
   });
+
+  it("should update hasSelectedTodo", async () => {
+    const readAllSpy = jest
+      .spyOn(api, "readAll")
+      .mockResolvedValue([{ id: 1, title: "test", completed: false }]);
+
+    const { result } = renderHook(() => useTodoList());
+
+    await act(async () => readAllSpy);
+
+    expect(result.current.hasSelectedTodo).toEqual(false);
+
+    act(() => result.current.handleOnCheckItem(1));
+
+    expect(result.current.hasSelectedTodo).toEqual(true);
+  });
 });

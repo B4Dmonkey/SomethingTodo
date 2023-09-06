@@ -1,12 +1,18 @@
 import type { TodoItem } from "./api";
-import { useTodoList } from "./useTodoList";
 
 interface TodoListProps {
   listItems: TodoItem[];
+  selectedItems: TodoItem[];
+  handleOnCheckItem: (id: number) => void;
 }
 
-export const TodoList = ({ listItems }: TodoListProps) => {
-  const { selectedItems, handleOnCheckItem } = useTodoList();
+export const TodoList = ({
+  listItems,
+  selectedItems,
+  handleOnCheckItem,
+}: TodoListProps) => {
+  // ! We can't use this as a shared state. We would need a context manager instead
+  // const { selectedItems, handleOnCheckItem } = useTodoList();
 
   return (
     <ul>
