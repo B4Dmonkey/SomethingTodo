@@ -10,8 +10,10 @@ const HOST = "http://localhost:3000";
 
 export default {
   create: undefined,
+
   readAll: async (): Promise<TodoItem[]> =>
     await fetch(`${HOST}/api`).then((res) => res.json()),
+
   update: async (id: number, todoItem: Partial<TodoItem>): Promise<void> =>
     await fetch(`${HOST}/api/${id}`, {
       method: "PUT",
@@ -20,5 +22,9 @@ export default {
       },
       body: JSON.stringify(todoItem),
     }).then((res) => res.json()),
-  delete: undefined,
+
+  delete: async (id: number): Promise<void> =>
+    await fetch(`${HOST}/api/${id}`, {
+      method: "DELETE",
+    }).then((res) => res.json()),
 };

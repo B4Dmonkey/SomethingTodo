@@ -42,7 +42,7 @@ describe("useTodoList", () => {
     ]);
   });
 
-  it("should update hasSelectedTodo", async () => {
+  it("should handleDeleteTodo by calling the api with the selectedItems and clearing the selected items", async () => {
     const readAllSpy = jest
       .spyOn(api, "readAll")
       .mockResolvedValue([{ id: 1, title: "test", completed: false }]);
@@ -51,10 +51,20 @@ describe("useTodoList", () => {
 
     await act(async () => readAllSpy);
 
-    expect(result.current.hasSelectedTodo).toEqual(false);
+    expect(readAllSpy).toHaveBeenCalled();
 
     act(() => result.current.handleOnCheckItem(1));
 
-    expect(result.current.hasSelectedTodo).toEqual(true);
+    expect(result.current.selectedItems).toEqual([
+      { id: 1, title: "test", completed: false },
+    ]);
+
+    const deleteSpy = jest.spyOn(api, "delete");
+
+    await act(async () => result.current.handleDeleteTodo());
+
+    expect(deleteSpy).toHaveBeenCalledWith(1);
+    expect(result.current.selectedItems).toEqual([]);
+    // Todo: Should expect that fetch was called
   });
 });

@@ -5,11 +5,6 @@ import type { TodoItem } from "./api";
 export const useTodoList = () => {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
   const [selectedItems, setSelectedItems] = useState<TodoItem[]>([]);
-  const [hasSelectedTodo, setHasSelectedTodo] = useState(false);
-
-  useEffect(() => {
-    setHasSelectedTodo(!!selectedItems.length);
-  }, [selectedItems]);
 
   const fetchTodoList = async () => setTodoList(await api.readAll());
 
@@ -19,6 +14,17 @@ export const useTodoList = () => {
     //   setTodoList(res);
     // });
   }, []);
+
+  const handleDeleteTodo = async () => {
+    // ! Using a front end frame work for the client
+    // ! Forces a pattern where you must update the client to reflect the server
+    // ! Double state management
+    selectedItems.forEach(async (item) => {
+      await api.delete(item.id); // ! This is missing error handling. Skipping for now due to time
+    });
+    setSelectedItems([]);
+    fetchTodoList();
+  };
 
   const addTodo = (todoItem: string) => {
     setTodoList([
@@ -45,6 +51,6 @@ export const useTodoList = () => {
     addTodo,
     handleOnCheckItem,
     selectedItems,
-    hasSelectedTodo,
+    handleDeleteTodo,
   };
 };

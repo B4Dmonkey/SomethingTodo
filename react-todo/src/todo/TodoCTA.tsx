@@ -5,7 +5,7 @@ interface TodoCTAProps {
   selectedItems: TodoItem[];
   onAddTodo: (val: string) => void;
   onUpdateTodo?: (val: string) => void;
-  onDeleteTodo?: (val: string) => void;
+  onDeleteTodo: () => void;
 }
 
 export const TodoCTA = ({
@@ -43,7 +43,9 @@ export const TodoCTA = ({
 
   const UpdateTodoCTA = (
     <>
-      <button className="btn btn-active">Delete</button>
+      <button className="btn btn-active" onClick={(e) => onDeleteTodo()}>
+        Delete
+      </button>
       <button className="btn btn-active">Completed</button>
     </>
   );
