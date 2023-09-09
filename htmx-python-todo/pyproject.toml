@@ -1,12 +1,23 @@
+[tool.poe]
+poetry_command = ""
+
+[tool.poe.tasks]
+serve = "uvicorn htmx_python_todo.main:app --reload"
+
 [tool.poetry]
 name = "htmx-python-todo"
 version = "0.1.0"
-description = ""
+description = "An example todo app using htmx and python"
 authors = ["josiah <josiah@appstack.nyc>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = "^0.103.1"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+
+[tool.poetry.scripts]
+serve = "htmx_python_todo.main:main"
 
 
 [build-system]
