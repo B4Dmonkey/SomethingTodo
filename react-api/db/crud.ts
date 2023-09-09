@@ -53,3 +53,8 @@ export async function update(
 
   return id;
 }
+
+export async function delRecord(id: number): Promise<void> {
+  const db = await connect();
+  await db.run("DELETE FROM TODOs WHERE id = ?", id);
+}

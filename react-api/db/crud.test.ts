@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterEach, beforeEach } from "vitest";
-import { create, readAll, update } from "./crud";
+import { create, readAll, update, delRecord } from "./crud";
 import { TodoItem } from "../models/TodoItem";
 import { connect } from "./db";
 import { faker } from "@faker-js/faker";
@@ -78,7 +78,7 @@ describe("update", () => {
 
     const newItemId = await create(todoItem);
     await create(todoItem);
-    
+
     const currentRecord = await getRecord(newItemId);
 
     expect(currentRecord).toEqual(
@@ -124,5 +124,29 @@ describe("update", () => {
     expect(updatedRecord2).toEqual(
       expect.objectContaining({ id: id, title: "Updated Title", completed: 1 })
     );
+  });
+});
+
+describe("delRecord", () => {
+  it("should delete a record", async () => {
+    deleteAllRecords();
+
+    const todoItem: TodoItem = {
+      title: faker.lorem.sentence({ min: 3, max: 10 }),
+    };
+
+    const itemId = await create(todoItem);
+    await create(todoItem);
+
+    const record = await getRecord(itemId);
+
+    expect(record).toEqual(
+      expect.objectContaining({ id: 1, title: todoItem.title, completed: 0 })
+    );
+
+    await delRecord(itemId);
+    
+    const noRecord = await getRecord(itemId);
+    expect(noRecord).toBeUndefined();
   });
 });
