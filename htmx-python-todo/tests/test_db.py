@@ -1,4 +1,3 @@
-import unittest
 from htmx_python_todo.db.db import create_table, get_connection
 
 

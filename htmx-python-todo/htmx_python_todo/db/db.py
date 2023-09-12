@@ -2,7 +2,7 @@ import os
 import sqlite3
 from contextlib import contextmanager
 
-sql_file_dir = os.path.dirname(__file__)
+sql_file_dir = os.path.dirname(__file__) # * note for future me I may want to have an sql folder
 
 
 @contextmanager
