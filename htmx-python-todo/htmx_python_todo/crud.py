@@ -1,11 +1,11 @@
 import os
 from .db.db import get_connection
+from .models import TodoItem
 
-
-def create(title, completed=False):
+def create(item: TodoItem):
     with get_connection() as cur:
         sql = "INSERT INTO TODOs (title, completed) VALUES (?, ?)"
-        cur.execute(sql, (title, completed))
+        cur.execute(sql, (item.title, item.completed))
 
 
 def readAll():

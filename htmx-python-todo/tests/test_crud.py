@@ -1,6 +1,7 @@
+from htmx_python_todo.crud import create, readAll, delRecord
 from htmx_python_todo.db.db import get_connection, create_table
 from htmx_python_todo.db.seed import seed
-from htmx_python_todo.crud import create, readAll, delRecord
+from htmx_python_todo.models import TodoItem
 
 create_table() # * Should be in a before all probably
 
@@ -12,7 +13,8 @@ def deleteAllRecords():
 
 def test_create():
     deleteAllRecords()
-    create("Test Create")
+    newItem = TodoItem("Test Create")
+    create(newItem)
     with get_connection() as db:
         rows = db.execute("SELECT * FROM TODOs").fetchall()
         assert len(rows) == 1
@@ -28,7 +30,8 @@ def test_readAll():
 
 def test_delRecord():
     deleteAllRecords()
-    create("Test Create")
+    newItem = TodoItem("Test Create")
+    create(newItem)
 
     with get_connection() as db:
         rows = db.execute("SELECT * FROM TODOs").fetchall()
@@ -40,3 +43,20 @@ def test_delRecord():
     with get_connection() as db:
         rows = db.execute("SELECT * FROM TODOs").fetchall()
         assert len(rows) == 0
+
+
+# def test_update():
+#     deleteAllRecords()
+#     create("Test Create")
+
+#     with get_connection() as db:
+#         rows = db.execute("SELECT * FROM TODOs").fetchall()
+#         assert len(rows) == 1
+#         itemId = rows[0][0]
+
+#     with get_connection() as db:
+#         db.execute("UPDATE TODOs SET completed = 1 WHERE id = ?", (itemId,))
+
+#     with get_connection() as db:
+#         rows = db.execute("SELECT * FROM TODOs").fetchall()
+#         assert rows[0][2] == 1
