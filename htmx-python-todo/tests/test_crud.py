@@ -1,6 +1,8 @@
-from htmx_python_todo.db.db import get_connection
+from htmx_python_todo.db.db import get_connection, create_table
 from htmx_python_todo.db.seed import seed
-from htmx_python_todo.crud import create, readAll
+from htmx_python_todo.crud import create, readAll, delRecord
+
+create_table() # * Should be in a before all probably
 
 
 def deleteAllRecords():
@@ -22,3 +24,19 @@ def test_readAll():
     seed()
     rows = readAll()
     assert len(rows) == 3
+
+
+def test_delRecord():
+    deleteAllRecords()
+    create("Test Create")
+
+    with get_connection() as db:
+        rows = db.execute("SELECT * FROM TODOs").fetchall()
+        assert len(rows) == 1
+        itemId = rows[0][0]
+  
+    delRecord(itemId)
+
+    with get_connection() as db:
+        rows = db.execute("SELECT * FROM TODOs").fetchall()
+        assert len(rows) == 0

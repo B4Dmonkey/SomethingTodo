@@ -1,1 +1,0 @@
-INSERT INTO TODOs (title, completed) VALUES (?, ?);
