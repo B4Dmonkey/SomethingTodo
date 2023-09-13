@@ -1,9 +1,9 @@
-from htmx_python_todo.crud import create, readAll, delRecord
+from htmx_python_todo.crud import create, readAll, update,  delRecord
 from htmx_python_todo.db.db import get_connection, create_table
 from htmx_python_todo.db.seed import seed
 from htmx_python_todo.models import TodoItem
 
-create_table() # * Should be in a before all probably
+create_table()  # * Should be in a before all probably
 
 
 def deleteAllRecords():
@@ -11,52 +11,66 @@ def deleteAllRecords():
         db.execute("DELETE FROM TODOs")
 
 
+def get_test_item():
+    rows = readAll()
+    assert len(rows) == 1
+    return rows[0]
+
+
 def test_create():
     deleteAllRecords()
+
     newItem = TodoItem("Test Create")
     create(newItem)
-    with get_connection() as db:
-        rows = db.execute("SELECT * FROM TODOs").fetchall()
-        assert len(rows) == 1
-        assert rows[0][1] == "Test Create"
+
+    testItem = get_test_item()
+    assert testItem.title == "Test Create"
 
 
 def test_readAll():
     deleteAllRecords()
+
     seed()
+
     rows = readAll()
-    assert len(rows) == 3
+    assert len(readAll()) == 3
+    assert type(rows[0]) == TodoItem
 
 
 def test_delRecord():
     deleteAllRecords()
-    newItem = TodoItem("Test Create")
-    create(newItem)
+    create(TodoItem("Test Create"))
 
-    with get_connection() as db:
-        rows = db.execute("SELECT * FROM TODOs").fetchall()
-        assert len(rows) == 1
-        itemId = rows[0][0]
-  
-    delRecord(itemId)
+    testItem = get_test_item()
 
-    with get_connection() as db:
-        rows = db.execute("SELECT * FROM TODOs").fetchall()
-        assert len(rows) == 0
+    delRecord(testItem.itemId)
+
+    assert len(readAll()) == 0
 
 
-# def test_update():
+def test_update():
+    deleteAllRecords()
+
+    create(TodoItem("Test Create", completed=False))
+
+    testItem = get_test_item()
+    # * This has nothing to do with htmx, I want to experiment with immutability and functional programming. This is just a future me reference
+    update(testItem.itemId, TodoItem("Pop Lock & Drop It", completed=True))
+
+    updatedTestItem = get_test_item()
+    assert updatedTestItem.title == "Pop Lock & Drop It"
+    assert updatedTestItem.completed == True
+
+# TODO: Figure out how to do partial updates
+# def test_update_partial():
 #     deleteAllRecords()
-#     create("Test Create")
 
-#     with get_connection() as db:
-#         rows = db.execute("SELECT * FROM TODOs").fetchall()
-#         assert len(rows) == 1
-#         itemId = rows[0][0]
+#     create(TodoItem("Test Create", completed=False))
 
-#     with get_connection() as db:
-#         db.execute("UPDATE TODOs SET completed = 1 WHERE id = ?", (itemId,))
+#     testItem = get_test_item()
 
-#     with get_connection() as db:
-#         rows = db.execute("SELECT * FROM TODOs").fetchall()
-#         assert rows[0][2] == 1
+#     update(testItem.itemId, TodoItem(completed=True))
+
+#     updatedTestItem = get_test_item()
+#     assert updatedTestItem.title == "Test Create"
+#     assert updatedTestItem.completed == True
