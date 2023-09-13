@@ -7,11 +7,46 @@
       crossorigin="anonymous"
     ></script>
     <!-- Remove the following if going to prod -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@3.5.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
+
   <body>
-    <h1>Hey world</h1>
-    <div>Some un ordered list</div>
-    <div>the form</div>
+    <div className="container mx-auto">
+      <h1>
+        Dale Dimmadone son of Doug Dimmadone owner of the Dimmsdale Dimmadone To
+        Do Things List
+      </h1>
+
+      <ul>
+        <li>
+          <input
+            type="checkbox"
+            name="todo"
+            id="todo"
+            className="input input-bordered w-full max-w-xs"
+          />
+          <span>Some Todo item</span>
+        </li>
+      </ul>
+
+      <div className="grid grid-cols-2 space-x-4">
+        <input
+          type="text"
+          name="todo"
+          id="todo"
+          className="input input-bordered w-full max-w-xs"
+        />
+        <button className="btn btn-active">Add Todo</button>
+      </div>
+    </div>
   </body>
 </html>
+
+<style>
+  /* styles are missing from the react app. They're probably magically added  */
+</style>
