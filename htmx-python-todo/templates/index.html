@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- HTMX -->
     <script
       src="https://unpkg.com/htmx.org@1.9.2"
       integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
       crossorigin="anonymous"
     ></script>
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <!-- Remove the following if going to prod -->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@3.5.0/dist/full.css"
@@ -25,6 +30,7 @@
       <ul>
         <li>
           <input
+            id="myCoolTodo"
             type="checkbox"
             name="todo"
             id="todo"
@@ -35,20 +41,38 @@
       </ul>
 
       <div id="call-to-action" className="grid grid-cols-2 space-x-4">
-        <input
-          type="text"
-          name="todo"
-          id="todo"
-          className="input input-bordered w-full max-w-xs"
-        />
-        <button className="btn btn-active">Add Todo</button>
+        <span id="cta-add-new-todo">
+          <input
+            type="text"
+            name="todo"
+            id="todo"
+            className="input input-bordered w-full max-w-xs"
+          />
+          <button className="btn btn-active">Add Todo</button>
+        </span>
+        <span id="cta-modify-selected-todo">
+          
+        </span>
       </div>
     </div>
   </body>
 </html>
 
 <script>
+  function handleCheckboxChange() {
+    if (this.checked) {
+      $("#call-to-action").hide();
+    }
+    if (!this.checked) {
+      $("#call-to-action").show();
+    }
+  }
 
+  function onDocumentReady() {
+    $("#myCoolTodo").change(handleCheckboxChange);
+  }
+
+  $(document).ready(onDocumentReady);
 </script>
 
 <style>
