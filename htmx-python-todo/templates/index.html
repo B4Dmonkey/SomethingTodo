@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <title>Something ToDo</title>
     <!-- HTMX -->
     <script
       src="https://unpkg.com/htmx.org@1.9.2"
       integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
       crossorigin="anonymous"
     ></script>
-
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- Remove the following if going to prod -->
     <link
@@ -18,10 +17,12 @@
       type="text/css"
     />
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
 
   <body>
-    <div className="container mx-auto">
+    <div class="container mx-auto">
       <h1>
         Dale Dimmadone son of Doug Dimmadone owner of the Dimmsdale Dimmadone To
         Do Things List
@@ -29,29 +30,27 @@
 
       <ul>
         <li>
-          <input
-            id="myCoolTodo"
-            type="checkbox"
-            name="todo"
-            id="todo"
-            className="input input-bordered w-full max-w-xs"
-          />
+          <input id="myCoolTodo" type="checkbox" name="todo" id="todo" />
           <span>Some Todo item</span>
         </li>
       </ul>
 
-      <div id="call-to-action" className="grid grid-cols-2 space-x-4">
-        <span id="cta-add-new-todo">
+      <!-- This will take further though on how to correctly style this -->
+      <!-- In this example the buttons are in the document so its throwing of the styling compared to the react app -->
+      <div id="call-to-action" >
+        <span id="cta-add-new-todo" class="grid grid-cols-4 space-x-4">
           <input
             type="text"
             name="todo"
             id="todo"
-            className="input input-bordered w-full max-w-xs"
+            class="input input-bordered w-full max-w-xs"
           />
-          <button className="btn btn-active">Add Todo</button>
+          <button class="btn btn-active">Add Todo</button>
         </span>
-        <span id="cta-modify-selected-todo">
-          
+
+        <span id="cta-modify-selected-todo" class="grid grid-cols-4 space-x-4" style="display: none">
+          <button class="btn btn-active">Delete</button>
+          <button class="btn btn-active">Completed</button>
         </span>
       </div>
     </div>
@@ -59,12 +58,18 @@
 </html>
 
 <script>
+  // ? Theres probably a better way to handle the front end besides jquery
+  // ? But I don't want to spend too much time on this (react took all the time)
+  // * the problem with jquery has been lighthouse performance
+  // * Im also not familiar with it so I dont know if im using best practices
   function handleCheckboxChange() {
     if (this.checked) {
-      $("#call-to-action").hide();
+      $("#cta-add-new-todo").hide();
+      $("#cta-modify-selected-todo").show();
     }
     if (!this.checked) {
-      $("#call-to-action").show();
+      $("#cta-add-new-todo").show();
+      $("#cta-modify-selected-todo").hide();
     }
   }
 
@@ -77,4 +82,5 @@
 
 <style>
   /* styles are missing from the react app. They're probably magically added  */
+  /* styles were not missing its just that i was using className instead of class */
 </style>

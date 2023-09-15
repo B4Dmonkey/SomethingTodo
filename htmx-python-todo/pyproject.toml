@@ -11,11 +11,12 @@ version = "0.1.0"
 description = "An example todo app using htmx and python"
 authors = ["josiah <josiah@appstack.nyc>"]
 readme = "README.md"
+packages = [{ include = "htmx_python_todo" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.103.1"
-uvicorn = {extras = ["standard"], version = "^0.23.2"}
+uvicorn = { extras = ["standard"], version = "^0.23.2" }
 jinja2 = "^3.1.2"
 
 [tool.poetry.scripts]
