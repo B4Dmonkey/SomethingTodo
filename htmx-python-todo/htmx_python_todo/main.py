@@ -11,5 +11,10 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 def main(request: Request):
     todoItems = readAll()
-    print(f'fake logging {todoItems}')
-    return templates.TemplateResponse("index.html", dict(request=request))
+    return templates.TemplateResponse("index.html", dict(request=request, todoItems=todoItems))
+
+@app.post("/create")
+def createItem(request: Request):
+    print(request.form)
+    
+    return {"message": "Item created"}

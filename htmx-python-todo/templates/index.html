@@ -28,31 +28,42 @@
         Do Things List
       </h1>
 
-      <ul>
-        <li>
-          <input id="myCoolTodo" type="checkbox" name="todo" id="todo" />
-          <span>Some Todo item</span>
-        </li>
-      </ul>
+      <form
+        method="POST"
+        action="/create"
+      >
+        <ul>
+          {% for todoItem in todoItems %}
+          <li>
+            <input id="myCoolTodo" type="checkbox" name="todo" id="todo" />
+            <span>{{todoItem.title}}</span>
+          </li>
+          {% endfor %}
+        </ul>
 
-      <!-- This will take further though on how to correctly style this -->
-      <!-- In this example the buttons are in the document so its throwing of the styling compared to the react app -->
-      <div id="call-to-action" >
-        <span id="cta-add-new-todo" class="grid grid-cols-4 space-x-4">
-          <input
-            type="text"
-            name="todo"
-            id="todo"
-            class="input input-bordered w-full max-w-xs"
-          />
-          <button class="btn btn-active">Add Todo</button>
-        </span>
+        <!-- This will take further thought on how to correctly style this -->
+        <!-- In this example the buttons are in the document so its throwing of the styling compared to the react app -->
+        <div id="call-to-action">
+          <span id="cta-add-new-todo" class="grid grid-cols-4 space-x-4">
+            <input
+              type="text"
+              name="todo"
+              id="todo"
+              class="input input-bordered w-full max-w-xs"
+            />
+            <button type="submit" class="btn btn-active">Add Todo</button>
+          </span>
 
-        <span id="cta-modify-selected-todo" class="grid grid-cols-4 space-x-4" style="display: none">
-          <button class="btn btn-active">Delete</button>
-          <button class="btn btn-active">Completed</button>
-        </span>
-      </div>
+          <!-- <span
+            id="cta-modify-selected-todo"
+            class="grid grid-cols-4 space-x-4"
+            style="display: none"
+          >
+            <button class="btn btn-active">Delete</button>
+            <button class="btn btn-active">Completed</button>
+          </span> -->
+        </div>
+      </form>
     </div>
   </body>
 </html>
@@ -77,7 +88,7 @@
     $("#myCoolTodo").change(handleCheckboxChange);
   }
 
-  $(document).ready(onDocumentReady);
+  // $(document).ready(onDocumentReady);
 </script>
 
 <style>
