@@ -5,3 +5,4 @@
 */**/__pycache__/*
 .vscode
 TODO_DATABASE.db
+.DS_STORE
