@@ -1,0 +1,8 @@
+<ul id="current-list">
+  {% for todoItem in todoItems %}
+  <li>
+    <input id="myCoolTodo" type="checkbox" name="todo" id="todo" />
+    <span>{{todoItem.title}}</span>
+  </li>
+  {% endfor %}
+</ul>

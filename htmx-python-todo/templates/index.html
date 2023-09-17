@@ -28,11 +28,8 @@
         Do Things List
       </h1>
 
-      <form
-        method="POST"
-        action="/create"
-      >
-        <ul>
+      <form method="POST" hx-target="#current-list" hx-swap-oob="true">
+        <ul id="current-list">
           {% for todoItem in todoItems %}
           <li>
             <input id="myCoolTodo" type="checkbox" name="todo" id="todo" />
@@ -51,7 +48,14 @@
               id="todo"
               class="input input-bordered w-full max-w-xs"
             />
-            <button type="submit" class="btn btn-active">Add Todo</button>
+            <button
+              type="submit"
+              hx-post="/create"
+              hx-swap="outerHtml"
+              class="btn btn-active"
+            >
+              Add Todo
+            </button>
           </span>
 
           <!-- <span

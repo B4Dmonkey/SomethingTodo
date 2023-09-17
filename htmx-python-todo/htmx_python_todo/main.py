@@ -16,17 +16,9 @@ def main(request: Request):
     return templates.TemplateResponse("index.html", dict(request=request, todoItems=todoItems))
 
 
-@app.post("/")
-def temp(todo: Annotated[str, Form()]):
-    newTodo = TodoItem(title=todo)
-    # create(newTodo)
-    print(f"posted to the wrong route? new todo item: {newTodo}")
-    return "<h1>Good night!!!</h1>"
-
-
 @app.post("/create")
-def createItem(todo: Annotated[str, Form()]):
+def createItem(todo: Annotated[str, Form()], request: Request):
     newTodo = TodoItem(title=todo)
     create(newTodo)
-    print(f"created new todo item: {newTodo}")
-    return "Happy Birthday!!!"
+    todoItems = readAll()
+    return templates.TemplateResponse("listItems.html", dict(request=request, todoItems=todoItems))
